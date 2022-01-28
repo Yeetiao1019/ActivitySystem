@@ -25,10 +25,17 @@ namespace ActivitySystem.Controllers
         {
             var activities = _activityRepository.GetActivities();
 
-            return View(new ActivityViewModel
+            return View(new ActivityIndexViewModel
             {
                 Activities = activities
             });
+        }
+
+        public IActionResult Add()
+        {
+
+
+            return View();
         }
 
         public IActionResult Privacy()
