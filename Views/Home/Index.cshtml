@@ -1,8 +1,27 @@
-﻿@{
+﻿@model ActivitySystem.ViewModels.ActivityViewModel
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+
+<div class="container">
+    <div class="row">
+        @foreach (var activity in Model.Activities)
+        {
+            <div class="col-3">
+                <div class="card" style="width: 18rem;">
+                    <img src="..." class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">@activity.ActivityName</h5>
+                        <p class="card-text">@activity.Description</p>
+                        <a asp-route-id="@activity.ActivityId" class="btn btn-primary">Go somewhere</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
 </div>

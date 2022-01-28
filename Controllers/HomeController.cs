@@ -1,4 +1,5 @@
 ﻿using ActivitySystem.Models;
+using ActivitySystem.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -12,15 +13,22 @@ namespace ActivitySystem.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IActivityRepository _activityRepository;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IActivityRepository activityRepository)
         {
             _logger = logger;
+            this._activityRepository = activityRepository;
         }
 
         public IActionResult Index()
         {
-            return View();
+            var activities = _activityRepository.GetActivities();
+
+            return View(new ActivityViewModel
+            {
+                Activities = activities
+            });
         }
 
         public IActionResult Privacy()

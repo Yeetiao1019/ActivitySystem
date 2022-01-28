@@ -11,7 +11,7 @@ namespace ActivitySystem.Models
         public DbSet<Activity> Activities { get; set; }
         public DbSet<Organizer> Organizers { get; set; }
         public string DbPath { get; }
-        public AppDbContext()
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
             var folder = Environment.SpecialFolder.LocalApplicationData;
             var path = Environment.GetFolderPath(folder);
