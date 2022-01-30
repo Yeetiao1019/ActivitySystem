@@ -18,7 +18,7 @@
                     <div class="card-body">
                         <h5 class="card-title">@activity.ActivityName</h5>
                         <p class="card-text">@activity.Description</p>
-                        <a asp-route-id="@activity.ActivityId" class="btn btn-primary">Go somewhere</a>
+                        <a asp-controller="Home" asp-action="Detail" asp-route-activityId="@activity.ActivityId" class="btn btn-primary">查看更多</a>
                     </div>
                 </div>
             </div>

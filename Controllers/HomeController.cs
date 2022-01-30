@@ -31,16 +31,31 @@ namespace ActivitySystem.Controllers
             });
         }
 
+        [HttpGet]
         public IActionResult Add()
         {
-
-
             return View();
         }
 
-        public IActionResult Privacy()
+        [HttpPost]
+        public IActionResult Add(ActivitySystem.Models.Activity activity)
         {
-            return View();
+            if (ModelState.IsValid)
+            {
+                _activityRepository.AddActivity(activity);
+            }
+
+            return View("Detail",activity);
+        }
+
+        public IActionResult Detail(int activityId)
+        {
+            if(activityId <= 0)
+            {
+                return BadRequest();
+            }
+
+            return View(_activityRepository.GetActivityById(activityId));
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
