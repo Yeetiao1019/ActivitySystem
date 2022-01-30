@@ -11,11 +11,11 @@ namespace ActivitySystem.Migrations
                 name: "Organizers",
                 columns: table => new
                 {
-                    OrganizerId = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(type: "TEXT", nullable: true),
-                    Introduction = table.Column<int>(type: "INTEGER", nullable: false),
-                    MyProperty = table.Column<int>(type: "INTEGER", nullable: false)
+                    OrganizerId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Introduction = table.Column<int>(type: "int", nullable: false),
+                    MyProperty = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -26,18 +26,18 @@ namespace ActivitySystem.Migrations
                 name: "Activities",
                 columns: table => new
                 {
-                    ActivityId = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    ActivityName = table.Column<string>(type: "TEXT", nullable: true),
-                    Location = table.Column<string>(type: "TEXT", nullable: true),
-                    Description = table.Column<string>(type: "TEXT", nullable: true),
-                    ActivityStartTime = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    ActivityEndTime = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    ActivitySignUpStartTime = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    ActivitySignUpEndTime = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    EnrollCount = table.Column<int>(type: "INTEGER", nullable: false),
-                    AlreadyEnrollCount = table.Column<int>(type: "INTEGER", nullable: false),
-                    OrganizerId = table.Column<int>(type: "INTEGER", nullable: true)
+                    ActivityId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ActivityName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Location = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ActivityStartTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ActivityEndTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ActivitySignUpStartTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ActivitySignUpEndTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EnrollCount = table.Column<int>(type: "int", nullable: false),
+                    AlreadyEnrollCount = table.Column<int>(type: "int", nullable: false),
+                    OrganizerId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
