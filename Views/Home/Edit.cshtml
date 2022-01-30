@@ -1,0 +1,63 @@
+﻿@model ActivitySystem.Models.Activity
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Activity</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ActivityId" />
+            <div class="form-group">
+                <label asp-for="ActivityName" class="control-label"></label>
+                <input asp-for="ActivityName" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Location" class="control-label"></label>
+                <input asp-for="Location" class="form-control" />
+                <span asp-validation-for="Location" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ActivityStartTime" class="control-label"></label>
+                <input asp-for="ActivityStartTime" class="form-control" />
+                <span asp-validation-for="ActivityStartTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ActivityEndTime" class="control-label"></label>
+                <input asp-for="ActivityEndTime" class="form-control" />
+                <span asp-validation-for="ActivityEndTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ActivitySignUpStartTime" class="control-label"></label>
+                <input asp-for="ActivitySignUpStartTime" class="form-control" />
+                <span asp-validation-for="ActivitySignUpStartTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ActivitySignUpEndTime" class="control-label"></label>
+                <input asp-for="ActivitySignUpEndTime" class="form-control" />
+                <span asp-validation-for="ActivitySignUpEndTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="儲存" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

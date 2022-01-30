@@ -5,7 +5,7 @@
 }
 
 <h1>活動細節</h1>
-
+@await Html.PartialAsync("_MessageNotification", TempData["Message"])
 <div>
     <h4>@Model.ActivityName</h4>
     <hr />
@@ -67,6 +67,6 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.ActivityId">編輯</a> |
+    <a asp-action="Edit" asp-route-activityId="@Model.ActivityId">編輯</a> |
     <a asp-action="Index">回首頁</a>
 </div>

@@ -31,7 +31,6 @@ namespace ActivitySystem.Controllers
             });
         }
 
-        [HttpGet]
         public IActionResult Add()
         {
             return View();
@@ -43,19 +42,42 @@ namespace ActivitySystem.Controllers
             if (ModelState.IsValid)
             {
                 _activityRepository.AddActivity(activity);
+                TempData["Message"] = "新增成功！";
             }
 
-            return View("Detail",activity);
+            return View("Detail", activity);
         }
 
         public IActionResult Detail(int activityId)
         {
-            if(activityId <= 0)
+            if (activityId <= 0)
             {
-                return BadRequest();
+                return NotFound();
             }
 
             return View(_activityRepository.GetActivityById(activityId));
+        }
+
+        public IActionResult Edit(int activityId)
+        {
+            if (activityId <= 0)
+            {
+                return NotFound();
+            }
+
+            return View(_activityRepository.GetActivityById(activityId));
+        }
+
+        [HttpPost]
+        public IActionResult Edit(ActivitySystem.Models.Activity activity)
+        {
+            if (ModelState.IsValid)
+            {
+                _activityRepository.UpdateActivity(activity);
+                TempData["Message"] = "修改成功！";
+            }
+
+            return View("Detail", _activityRepository.GetActivityById(activity.ActivityId));
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
