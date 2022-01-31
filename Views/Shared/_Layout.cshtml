@@ -3,15 +3,16 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - ActivitySystem</title>
+    <title>活動通 - 所有好玩都在這</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="icon" type="image/x-icon" href="~/images/logo.png">
 </head>
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">活動系統</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">活動通</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -22,6 +23,7 @@
                     <form class="form-inline" asp-controller="Home" asp-action="Search" method="get">
                         <input class="form-control mr-sm-2" name="activityName" placeholder="找活動..." value="@ViewData["activityName"]" />
                     </form>
+                    <partial name="_LoginPartial" />
                     <a class="btn btn-info my-2 my-sm-0" asp-controller="Home" asp-action="Add">辦活動</a>
                 </div>
             </div>

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ActivitySystem.Models
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext<ApplicationUser>
     {
         public DbSet<Activity> Activities { get; set; }
         public DbSet<Organizer> Organizers { get; set; }
@@ -21,6 +22,13 @@ namespace ActivitySystem.Models
         {
             optionsBuilder.UseSqlServer(
                 @"Server=(localdb)\mssqllocaldb;Database=ActivitySystem;Integrated Security=True");
+        }
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+            // Customize the ASP.NET Core Identity model and override the defaults if needed.
+            // For example, you can rename the ASP.NET Core Identity table names and more.
+            // Add your customizations after calling base.OnModelCreating(builder);
         }
     }
 }
