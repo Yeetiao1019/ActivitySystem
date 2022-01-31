@@ -60,7 +60,7 @@ namespace ActivitySystem.Areas.Identity.Pages.Account
                 await _emailSender.SendEmailAsync(
                     Input.Email,
                     "Reset Password",
-                    $"<a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>重置密碼</a>.");
+                    $"<a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>點此重置密碼</a>.");
 
                 return RedirectToPage("./ForgotPasswordConfirmation");
             }

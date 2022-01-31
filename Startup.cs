@@ -1,7 +1,9 @@
 using ActivitySystem.Models;
+using ActivitySystem.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -29,6 +31,13 @@ namespace ActivitySystem
                   options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddScoped<IActivityRepository, ActivityRepository>();
             services.AddScoped<IOrganizerRepository, OrganizerRepository>();
+            services.AddTransient<IEmailSender, EmailSenderService>( i => new EmailSenderService(
+                    Configuration["EmailSenderService:Host"],
+                    Configuration.GetValue<int>("EmailSenderService:Port"),
+                    Configuration.GetValue<bool>("EmailSenderService:IsEnableSSL"),
+                    Configuration["EmailSenderService:UserName"],
+                    Configuration["EmailSenderService:Password"]
+                ));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
         .AddEntityFrameworkStores<AppDbContext>()
