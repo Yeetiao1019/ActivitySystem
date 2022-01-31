@@ -7,13 +7,14 @@
     <div class="row">
         @foreach (var activity in Model.Activities)
         {
-            <div class="col-3">
+            <div class="col-lg-4">
                 <div class="card" style="width: 18rem;">
-                    <img src="..." class="card-img-top" alt="...">
+                    <img src="~/images/logo.png" class="card-img-top" alt="...">
                     <div class="card-body">
                         <h5 class="card-title">@activity.ActivityName</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">@activity.ActivityStartTime.ToString("yyyy-MM-dd(dddd)") ~ @activity.ActivityEndTime.ToString("yyyy-MM-dd(dddd)")</h6>
                         <p class="card-text">@activity.Description</p>
-                        <a asp-route-id="@activity.ActivityId" class="btn btn-primary">Go somewhere</a>
+                        <a asp-controller="Home" asp-action="Detail" asp-route-activityId="@activity.ActivityId" class="btn btn-primary">查看更多</a>
                     </div>
                 </div>
             </div>

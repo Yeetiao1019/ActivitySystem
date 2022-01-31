@@ -37,7 +37,7 @@ namespace ActivitySystem.Controllers
         }
 
         [HttpPost]
-        public IActionResult Add(ActivitySystem.Models.Activity activity)
+        public IActionResult Add(Models.Activity activity)
         {
             if (ModelState.IsValid)
             {
