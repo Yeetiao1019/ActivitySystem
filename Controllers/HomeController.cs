@@ -25,7 +25,7 @@ namespace ActivitySystem.Controllers
         {
             var activities = _activityRepository.GetActivities();
 
-            return View(new ActivityIndexViewModel
+            return View(new ActivityListViewModel
             {
                 Activities = activities
             });
@@ -78,6 +78,16 @@ namespace ActivitySystem.Controllers
             }
 
             return View("Detail", _activityRepository.GetActivityById(activity.ActivityId));
+        }
+
+        public IActionResult Search(string activityName)
+        {
+            ViewData["activityName"] = activityName;
+
+            return View(new ActivityListViewModel
+            {
+                Activities = _activityRepository.GetActivitiesByName(activityName)
+            });
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

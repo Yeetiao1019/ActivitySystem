@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ActivitySystem.ViewModels
 {
-    public class ActivityIndexViewModel
+    public class ActivityListViewModel
     {
         public IEnumerable<Activity> Activities { get; set; }
     }

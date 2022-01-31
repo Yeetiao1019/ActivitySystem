@@ -41,6 +41,16 @@ namespace ActivitySystem.Models
             return _appDbContext.Activities.ToList();
         }
 
+        public IEnumerable<Activity> GetActivitiesByName(string activityName)
+        {
+            if(activityName == null)
+            {
+                return _appDbContext.Activities.ToList();
+            }
+
+            return _appDbContext.Activities.Where(a => a.ActivityName.Contains(activityName)).ToList();
+        }
+
         public Activity GetActivityById(int activityId)
         {
             return _appDbContext.Activities.FirstOrDefault(a => a.ActivityId == activityId);
