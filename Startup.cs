@@ -29,15 +29,23 @@ namespace ActivitySystem
         {
             services.AddDbContext<AppDbContext>(options =>
                   options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
             services.AddScoped<IActivityRepository, ActivityRepository>();
             services.AddScoped<IOrganizerRepository, OrganizerRepository>();
-            services.AddTransient<IEmailSender, EmailSenderService>( i => new EmailSenderService(
-                    Configuration["EmailSenderService:Host"],
-                    Configuration.GetValue<int>("EmailSenderService:Port"),
-                    Configuration.GetValue<bool>("EmailSenderService:IsEnableSSL"),
-                    Configuration["EmailSenderService:UserName"],
-                    Configuration["EmailSenderService:Password"]
-                ));
+            services.AddTransient<IEmailSender, EmailSenderService>(i => new EmailSenderService(
+                   Configuration["EmailSenderService:Host"],
+                   Configuration.GetValue<int>("EmailSenderService:Port"),
+                   Configuration.GetValue<bool>("EmailSenderService:IsEnableSSL"),
+                   Configuration["EmailSenderService:UserName"],
+                   Configuration["EmailSenderService:Password"]
+               ));
+
+//            services.AddAuthentication(o =>
+//            {
+//                o.DefaultScheme = IdentityConstants.ApplicationScheme;
+//                o.DefaultSignInScheme = IdentityConstants.ExternalScheme;
+//            })
+//.AddIdentityCookies(o => { });
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
         .AddEntityFrameworkStores<AppDbContext>()

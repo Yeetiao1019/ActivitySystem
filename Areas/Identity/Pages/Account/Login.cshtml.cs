@@ -99,7 +99,7 @@ namespace ActivitySystem.Areas.Identity.Pages.Account
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "錯誤的登入資訊");
+                    ModelState.AddModelError(string.Empty, "帳號或密碼錯誤");
                     return Page();
                 }
             }
