@@ -40,13 +40,6 @@ namespace ActivitySystem
                    Configuration["EmailSenderService:Password"]
                ));
 
-//            services.AddAuthentication(o =>
-//            {
-//                o.DefaultScheme = IdentityConstants.ApplicationScheme;
-//                o.DefaultSignInScheme = IdentityConstants.ExternalScheme;
-//            })
-//.AddIdentityCookies(o => { });
-
             services.AddIdentity<ApplicationUser, IdentityRole>()
         .AddEntityFrameworkStores<AppDbContext>()
         .AddDefaultUI()
