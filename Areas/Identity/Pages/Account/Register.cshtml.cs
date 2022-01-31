@@ -52,7 +52,7 @@ namespace ActivitySystem.Areas.Identity.Pages.Account
             public string Email { get; set; }
 
             [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [StringLength(100, ErrorMessage = "請輸入 {2} 以上，{1} 以下長度的字元", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "密碼")]
             public string Password { get; set; }
@@ -79,7 +79,7 @@ namespace ActivitySystem.Areas.Identity.Pages.Account
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("User created a new account with password.");
+                    _logger.LogInformation("使用者註冊帳號與密碼成功");
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
