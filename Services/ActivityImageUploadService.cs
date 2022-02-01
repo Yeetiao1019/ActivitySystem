@@ -15,8 +15,10 @@ namespace ActivitySystem.Services
         {
             if (model.ActivityImage != null)
             {
-                string UploadFolder = Path.Combine(webHostEnvironment.WebRootPath, "images/Activity");
+                string UploadFolder = Path.Combine(webHostEnvironment.WebRootPath, "images/Upload/Activity");
                 string FileName = Guid.NewGuid().ToString() + "_" + model.ActivityImage.FileName;
+                model.ActivityImageFileName = FileName;
+
                 string FilePath = Path.Combine(UploadFolder, FileName);
                 using (var fileStream = new FileStream(FilePath, FileMode.Create))
                 {

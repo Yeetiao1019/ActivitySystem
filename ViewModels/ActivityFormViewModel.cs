@@ -34,5 +34,6 @@ namespace ActivitySystem.ViewModels
         public DateTime ActivitySignUpEndTime { get; set; }
         [DisplayName("封面圖片")]
         public IFormFile ActivityImage { get; set; }
+        public string ActivityImageFileName { get; set; }
     }
 }

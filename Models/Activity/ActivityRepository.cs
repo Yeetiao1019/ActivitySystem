@@ -23,6 +23,22 @@ namespace ActivitySystem.Models
             return count > 0;
         }
 
+        public bool AddActivityWithImage(Activity activity,ActivityImage activityImage)
+        {
+            _appDbContext.Activities.Add(activity);
+            var count = _appDbContext.SaveChanges();
+
+            if(count > 0)
+            {
+                activityImage.ActivityId = activity.ActivityId;
+                _appDbContext.ActivityImages.Add(activityImage);
+
+                count += _appDbContext.SaveChanges();
+            }
+
+            return count > 1;
+        }
+
         public bool DeleteActivityById(int activityId)
         {
             var activity = _appDbContext.Activities.FirstOrDefault(a => a.ActivityId == activityId);

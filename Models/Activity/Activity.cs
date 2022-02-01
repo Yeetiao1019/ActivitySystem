@@ -10,6 +10,7 @@ namespace ActivitySystem.Models
 {
     public class Activity
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ActivityId { get; set; }
         [Required]
         [DisplayName("活動名稱")]

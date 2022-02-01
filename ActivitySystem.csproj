@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\images\Activity\" />
+    <Folder Include="wwwroot\images\Upload\Activity\" />
   </ItemGroup>
 
 </Project>

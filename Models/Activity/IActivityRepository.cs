@@ -11,6 +11,7 @@ namespace ActivitySystem.Models
         IEnumerable<Activity> GetActivitiesByName(string activityName);
         Activity GetActivityById(int activityId);
         bool AddActivity(Activity activity);
+        bool AddActivityWithImage(Activity activity, ActivityImage activityImage);
         bool DeleteActivityById(int activityId);
         bool UpdateActivity(Activity activity);
     }

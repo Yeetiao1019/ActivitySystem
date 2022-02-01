@@ -57,10 +57,16 @@ namespace ActivitySystem.Controllers
                     ActivitySignUpStartTime = model.ActivitySignUpStartTime,
                     ActivitySignUpEndTime = model.ActivitySignUpEndTime,
                     ActivityStartTime = model.ActivityStartTime,
-                    ActivityEndTime = model.ActivityEndTime,
+                    ActivityEndTime = model.ActivityEndTime
                 };
 
-                _activityRepository.AddActivity(ActivityModel);
+                ActivityImage ActivityImageModel = new ActivityImage 
+                { 
+                    ImageFileName = model.ActivityImageFileName,
+                    UploadTime = DateTime.Now
+                };
+
+                _activityRepository.AddActivityWithImage(ActivityModel, ActivityImageModel);
                 TempData["Message"] = "新增成功！";
             }
 

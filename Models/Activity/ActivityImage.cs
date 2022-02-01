@@ -9,6 +9,7 @@ namespace ActivitySystem.Models
 {
     public class ActivityImage
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ActivityImageId { get; set; }
         public string ImageFileName { get; set; }
         [Column(TypeName = "datetime2")]
