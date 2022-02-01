@@ -1,5 +1,8 @@
 ﻿using ActivitySystem.Models;
+using ActivitySystem.Services;
 using ActivitySystem.ViewModels;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -14,11 +17,13 @@ namespace ActivitySystem.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IActivityRepository _activityRepository;
+        private readonly IWebHostEnvironment _env;
 
-        public HomeController(ILogger<HomeController> logger, IActivityRepository activityRepository)
+        public HomeController(ILogger<HomeController> logger, IActivityRepository activityRepository, IWebHostEnvironment env)
         {
             _logger = logger;
             this._activityRepository = activityRepository;
+            this._env = env;
         }
 
         public IActionResult Index()
@@ -37,15 +42,29 @@ namespace ActivitySystem.Controllers
         }
 
         [HttpPost]
-        public IActionResult Add(Models.Activity activity)
+        public IActionResult Add(ActivityFormViewModel model)
         {
+            Models.Activity ActivityModel = new Models.Activity();
             if (ModelState.IsValid)
             {
-                _activityRepository.AddActivity(activity);
+                IFormFile UploadImageFile = ActivityImageUploadService.UploadedFile(model, _env);
+
+                ActivityModel = new Models.Activity
+                {
+                    ActivityName = model.ActivityName,
+                    Description = model.Description,
+                    Location = model.Location,
+                    ActivitySignUpStartTime = model.ActivitySignUpStartTime,
+                    ActivitySignUpEndTime = model.ActivitySignUpEndTime,
+                    ActivityStartTime = model.ActivityStartTime,
+                    ActivityEndTime = model.ActivityEndTime,
+                };
+
+                _activityRepository.AddActivity(ActivityModel);
                 TempData["Message"] = "新增成功！";
             }
 
-            return View("Detail", activity);
+            return View("Detail", ActivityModel);
         }
 
         public IActionResult Detail(int activityId)

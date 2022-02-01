@@ -9,7 +9,14 @@
         {
             <div class="col-lg-4">
                 <div class="card" style="width: 18rem;">
-                    <img src="~/images/logo.png" class="card-img-top" alt="...">
+                    @if (activity.ActivityImage != null)
+                    {
+                        <img src="~/images/Activity/@activity.ActivityImage.ImageFileName" asp-append-version="true" />
+                    }
+                    else
+                    {
+                        <img src="https://photos.prnasia.com/prnk/20191217/2673717-1LOGO" class="card-img-top" alt="...">
+                    }
                     <div class="card-body">
                         <h5 class="card-title">@activity.ActivityName</h5>
                         <h6 class="card-subtitle mb-2 text-muted">@activity.ActivityStartTime.ToString("yyyy-MM-dd(dddd)") ~ <br>@activity.ActivityEndTime.ToString("yyyy-MM-dd(dddd)")</h6>

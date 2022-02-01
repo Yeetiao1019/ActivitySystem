@@ -4,14 +4,16 @@ using ActivitySystem.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ActivitySystem.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220201113748_CreateActivityImage")]
+    partial class CreateActivityImage
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -28,6 +30,9 @@ namespace ActivitySystem.Migrations
 
                     b.Property<DateTime>("ActivityEndTime")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("ActivityImageId")
+                        .HasColumnType("int");
 
                     b.Property<string>("ActivityName")
                         .IsRequired()
@@ -56,7 +61,12 @@ namespace ActivitySystem.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("OrganizerId")
+                        .HasColumnType("int");
+
                     b.HasKey("ActivityId");
+
+                    b.HasIndex("OrganizerId");
 
                     b.ToTable("Activities");
                 });
@@ -65,8 +75,7 @@ namespace ActivitySystem.Migrations
                 {
                     b.Property<int>("ActivityImageId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
                     b.Property<int>("ActivityId")
                         .HasColumnType("int");
@@ -78,9 +87,6 @@ namespace ActivitySystem.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("ActivityImageId");
-
-                    b.HasIndex("ActivityId")
-                        .IsUnique();
 
                     b.ToTable("ActivityImages");
                 });
@@ -305,11 +311,22 @@ namespace ActivitySystem.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("ActivitySystem.Models.Activity", b =>
+                {
+                    b.HasOne("ActivitySystem.Models.Organizer", "Organizer")
+                        .WithMany()
+                        .HasForeignKey("OrganizerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Organizer");
+                });
+
             modelBuilder.Entity("ActivitySystem.Models.ActivityImage", b =>
                 {
                     b.HasOne("ActivitySystem.Models.Activity", "Activity")
                         .WithOne("ActivityImage")
-                        .HasForeignKey("ActivitySystem.Models.ActivityImage", "ActivityId")
+                        .HasForeignKey("ActivitySystem.Models.ActivityImage", "ActivityImageId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
