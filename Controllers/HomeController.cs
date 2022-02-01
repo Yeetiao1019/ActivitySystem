@@ -107,6 +107,7 @@ namespace ActivitySystem.Controllers
 
         public IActionResult Search(string activityName)
         {
+            activityName = activityName == null ? "" : activityName;       // 避免 null 值而無法正常撈到資料
             ViewData["activityName"] = activityName;
 
             return View(new ActivityListViewModel

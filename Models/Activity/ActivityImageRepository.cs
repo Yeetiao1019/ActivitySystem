@@ -14,6 +14,7 @@ namespace ActivitySystem.Models
         }
         public bool AddActivityImage(ActivityImage activityImage)
         {
+            activityImage.ImageFileName = string.IsNullOrEmpty(activityImage.ImageFileName) ? "" : activityImage.ImageFileName; // 避免 Null 值導致無法撈資料
             _appDbContext.ActivityImages.Add(activityImage);
             var count = _appDbContext.SaveChanges();
 

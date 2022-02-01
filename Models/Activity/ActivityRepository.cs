@@ -8,12 +8,12 @@ namespace ActivitySystem.Models
     public class ActivityRepository : IActivityRepository
     {
         private readonly AppDbContext _appDbContext;
-        private readonly IOrganizerRepository organizer;
+        private readonly IActivityImageRepository _activityImageRepository;
 
-        public ActivityRepository(AppDbContext appDbContext, IOrganizerRepository organizer)
+        public ActivityRepository(AppDbContext appDbContext, IActivityImageRepository activityImageRepository)
         {
             this._appDbContext = appDbContext;
-            this.organizer = organizer;
+            this._activityImageRepository = activityImageRepository;
         }
         public bool AddActivity(Activity activity)
         {
@@ -31,7 +31,7 @@ namespace ActivitySystem.Models
             if(count > 0)
             {
                 activityImage.ActivityId = activity.ActivityId;
-                _appDbContext.ActivityImages.Add(activityImage);
+                _activityImageRepository.AddActivityImage(activityImage);
 
                 count += _appDbContext.SaveChanges();
             }
@@ -59,12 +59,15 @@ namespace ActivitySystem.Models
 
         public IEnumerable<Activity> GetActivitiesByName(string activityName)
         {
-            if(activityName == null)
+            var activities = _appDbContext.Activities.Where(a => a.ActivityName.Contains(activityName)).ToList();
+
+            foreach (var activity in activities)    // 尋找已上傳的圖片 ID
             {
-                return _appDbContext.Activities.ToList();
+                var activityImageId = _appDbContext.ActivityImages.FirstOrDefault(ai => ai.ActivityId == activity.ActivityId).ActivityImageId;
+                activity.ActivityImage.ActivityId = activityImageId;
             }
 
-            return _appDbContext.Activities.Where(a => a.ActivityName.Contains(activityName)).ToList();
+            return activities;
         }
 
         public Activity GetActivityById(int activityId)

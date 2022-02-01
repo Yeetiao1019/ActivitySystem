@@ -9,13 +9,13 @@
         {
             <div class="col-lg-4">
                 <div class="card" style="width: 18rem;">
-                    @if (activity.ActivityImage != null)
+                    @if (!string.IsNullOrEmpty(activity.ActivityImage.ImageFileName))
                     {
-                        <img src="~/images/Upload/Activity/@activity.ActivityImage.ImageFileName" asp-append-version="true" />
+                        <img src="~/images/Upload/Activity/@activity.ActivityImage.ImageFileName" class="card-img-top" asp-append-version="true" />
                     }
                     else
                     {
-                        <img src="https://photos.prnasia.com/prnk/20191217/2673717-1LOGO" class="card-img-top" alt="...">
+                        <img src="~/images/logo.png" class="card-img-top" alt="...">
                     }
                     <div class="card-body">
                         <h5 class="card-title">@activity.ActivityName</h5>
