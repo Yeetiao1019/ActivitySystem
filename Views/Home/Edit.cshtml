@@ -48,6 +48,17 @@
                 <span asp-validation-for="ActivitySignUpEndTime" class="text-danger"></span>
             </div>
             <div class="form-group">
+                @if (!string.IsNullOrEmpty(Model.ActivityImage.ImageFileName))
+                {
+                    <img src="~/images/Upload/Activity/@Model.ActivityImage.ImageFileName" style="width:100%; height:100%;"/>
+                }
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" asp-for="ActivityImage">
+                    <label class="custom-file-label" for="ActivityImage">選擇圖片</label>
+                    <span asp-validation-for="ActivityImage" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
                 <input type="submit" value="儲存" class="btn btn-primary" />
             </div>
         </form>

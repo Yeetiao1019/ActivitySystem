@@ -1,4 +1,5 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
-
-// Write your JavaScript code.
+﻿$(function () {
+    $(".custom-file-input").change(function () {
+        $(this).next(".custom-file-label").html($(this).val().split("\\").pop());
+    });
+});
