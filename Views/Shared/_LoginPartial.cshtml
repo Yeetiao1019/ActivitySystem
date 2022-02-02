@@ -11,7 +11,7 @@
     {
         ViewData["FullName"] = UserManager.GetUserAsync(User).Result.FullName;
     }
-    <form asp-area="Identity" asp-controller="Account" asp-action="Logout" method="post" id="logoutForm" class="navbar-right">
+    <form asp-area="Identity" asp-controller="Account" asp-action="Logout" asp-route-returnUrl="/" method="post" id="logoutForm" class="navbar-right">
         <ul class="nav navbar-nav navbar-right">
             <li>
                 <a class="btn btn-link" asp-area="Identity" asp-controller="Account" asp-action="Manage" title="Manage">@ViewData["FullName"]</a>
