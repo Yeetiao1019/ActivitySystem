@@ -1,6 +1,7 @@
 ﻿using ActivitySystem.Models;
 using ActivitySystem.Services;
 using ActivitySystem.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -36,6 +37,7 @@ namespace ActivitySystem.Controllers
             });
         }
 
+        [Authorize]
         public IActionResult Add()
         {
             return View();
@@ -84,6 +86,7 @@ namespace ActivitySystem.Controllers
             return View(_activityRepository.GetActivityById(activityId));
         }
 
+        [Authorize]
         public IActionResult Edit(int activityId)
         {
             if (activityId <= 0)
@@ -107,6 +110,7 @@ namespace ActivitySystem.Controllers
             return View("Detail", _activityRepository.GetActivityById(activity.ActivityId));
         }
 
+        [Authorize]
         public IActionResult Delete (int? activityId)
         {
             if(activityId == null)
