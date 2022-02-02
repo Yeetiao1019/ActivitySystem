@@ -105,6 +105,40 @@ namespace ActivitySystem.Controllers
             return View("Detail", _activityRepository.GetActivityById(activity.ActivityId));
         }
 
+        public IActionResult Delete (int? activityId)
+        {
+            if(activityId == null)
+            {
+                return NotFound();
+            }
+            var activity = _activityRepository.GetActivityById(activityId);
+            
+            return View(activity);
+        }
+
+        [HttpPost]
+        public IActionResult DeleteConfirm(int activityId)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _activityRepository.DeleteActivityById(activityId);
+                    TempData["Message"] = "刪除成功！";
+
+                    return RedirectToAction("Index");
+                }
+                catch (Exception)
+                {
+
+                    return BadRequest();
+                }
+                
+            }
+
+            return BadRequest();
+        }
+
         public IActionResult Search(string activityName)
         {
             activityName = activityName == null ? "" : activityName;       // 避免 null 值而無法正常撈到資料

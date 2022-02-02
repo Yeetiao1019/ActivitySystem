@@ -22,7 +22,7 @@
                     {
                         <div class="carousel-item active">
                             <a asp-controller="Home" asp-action="Detail" asp-route-activityId="@Model.Activities.ToList()[i].ActivityId">
-                                <img class="d-block w-100" src="https://blog.johnwu.cc/images/featured/net-core.png" alt="@Model.Activities.ToList()[i].ActivityName" href="@Url.Action("Detail", "Home", new { activityId = Model.Activities.ToList()[i].ActivityId})">
+                                <img class="d-block w-100" src="~/images/Upload/Activity/@Model.Activities.ToList()[i].ActivityImage.ImageFileName" alt="@Model.Activities.ToList()[i].ActivityName" href="@Url.Action("Detail", "Home", new { activityId = Model.Activities.ToList()[i].ActivityId})">
                             </a>
                         </div>
                     }
@@ -30,7 +30,7 @@
                     {
                         <div class="carousel-item">
                             <a asp-controller="Home" asp-action="Detail" asp-route-activityId="@Model.Activities.ToList()[i].ActivityId">
-                                <img class="d-block w-100" src="https://blog.johnwu.cc/images/featured/net-core.png" alt="@Model.Activities.ToList()[i].ActivityName" asp-controller="Home" asp-action="Detail" asp-route-activityId="@Model.Activities.ToList()[i].ActivityId">
+                                <img class="d-block w-100" src="~/images/Upload/Activity/@Model.Activities.ToList()[i].ActivityImage.ImageFileName" alt="@Model.Activities.ToList()[i].ActivityName" asp-controller="Home" asp-action="Detail" asp-route-activityId="@Model.Activities.ToList()[i].ActivityId">
                             </a>
                         </div>
                     }

@@ -23,12 +23,12 @@ namespace ActivitySystem.Models
             return count > 0;
         }
 
-        public bool AddActivityWithImage(Activity activity,ActivityImage activityImage)
+        public bool AddActivityWithImage(Activity activity, ActivityImage activityImage)
         {
             _appDbContext.Activities.Add(activity);
             var count = _appDbContext.SaveChanges();
 
-            if(count > 0)
+            if (count > 0)
             {
                 activityImage.ActivityId = activity.ActivityId;
                 _activityImageRepository.AddActivityImage(activityImage);
@@ -37,6 +37,21 @@ namespace ActivitySystem.Models
             }
 
             return count > 1;
+        }
+
+        public bool DeleteActivity(Activity activity)
+        {
+            try
+            {
+                _appDbContext.Activities.Remove(activity);
+                var count = _appDbContext.SaveChanges();
+
+                return count > 0;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         public bool DeleteActivityById(int activityId)
@@ -54,7 +69,14 @@ namespace ActivitySystem.Models
 
         public IEnumerable<Activity> GetActivities()
         {
-            return _appDbContext.Activities.ToList();
+            var activities = _appDbContext.Activities.ToList();
+            foreach (var activity in activities)    // 尋找已上傳的圖片 ID
+            {
+                var activityImageId = _appDbContext.ActivityImages.FirstOrDefault(ai => ai.ActivityId == activity.ActivityId).ActivityImageId;
+                activity.ActivityImage.ActivityImageId = activityImageId;
+            }
+
+            return activities;
         }
 
         public IEnumerable<Activity> GetActivitiesByName(string activityName)
@@ -64,20 +86,29 @@ namespace ActivitySystem.Models
             foreach (var activity in activities)    // 尋找已上傳的圖片 ID
             {
                 var activityImageId = _appDbContext.ActivityImages.FirstOrDefault(ai => ai.ActivityId == activity.ActivityId).ActivityImageId;
-                activity.ActivityImage.ActivityId = activityImageId;
+                activity.ActivityImage.ActivityImageId = activityImageId;
             }
 
             return activities;
         }
 
-        public Activity GetActivityById(int activityId)
+        public Activity GetActivityById(int? activityId)
         {
-            return _appDbContext.Activities.FirstOrDefault(a => a.ActivityId == activityId);
+            if(activityId == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            var activity = _appDbContext.Activities.FirstOrDefault(a => a.ActivityId == activityId);
+            var activityImageId = _appDbContext.ActivityImages.FirstOrDefault(ai => ai.ActivityId == activity.ActivityId).ActivityImageId;
+            activity.ActivityImage.ActivityImageId = activityImageId;
+
+            return activity;
         }
 
         public bool UpdateActivity(Activity activity)
         {
-             _appDbContext.Activities.Update(activity) ;
+            _appDbContext.Activities.Update(activity);
             var count = _appDbContext.SaveChanges();
 
             return count > 0;

@@ -1,13 +1,14 @@
 ﻿@model ActivitySystem.Models.Activity
 
 @{
-    ViewData["Title"] = "View";
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>活動細節</h1>
-@await Html.PartialAsync("_MessageNotification", TempData["Message"])
+<h1>刪除活動</h1>
+
+<h3>確定要刪除嗎？</h3>
 <div>
-    <h4>@Model.ActivityName</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -65,9 +66,10 @@
             @Html.DisplayFor(model => model.AlreadyEnrollCount)
         </dd>
     </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-activityId="@Model.ActivityId">編輯</a> |
-    <a asp-action="Delete" asp-route-activityId="@Model.ActivityId">刪除</a> |
-    <a asp-action="Index">回首頁</a>
+    
+    <form asp-action="DeleteConfirm">
+        <input type="hidden" asp-for="ActivityId" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-action="Index">回首頁</a>
+    </form>
 </div>
