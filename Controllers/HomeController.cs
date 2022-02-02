@@ -42,6 +42,7 @@ namespace ActivitySystem.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Add(ActivityFormViewModel model)
         {
             Models.Activity ActivityModel = new Models.Activity();
@@ -94,6 +95,7 @@ namespace ActivitySystem.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Edit(ActivitySystem.Models.Activity activity)
         {
             if (ModelState.IsValid)
@@ -117,6 +119,7 @@ namespace ActivitySystem.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirm(int activityId)
         {
             if (ModelState.IsValid)
