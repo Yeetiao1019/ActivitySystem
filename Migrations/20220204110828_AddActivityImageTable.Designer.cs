@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ActivitySystem.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20220201113748_CreateActivityImage")]
-    partial class CreateActivityImage
+    [Migration("20220204110828_AddActivityImageTable")]
+    partial class AddActivityImageTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -30,9 +30,6 @@ namespace ActivitySystem.Migrations
 
                     b.Property<DateTime>("ActivityEndTime")
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("ActivityImageId")
-                        .HasColumnType("int");
 
                     b.Property<string>("ActivityName")
                         .IsRequired()
@@ -61,12 +58,7 @@ namespace ActivitySystem.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("OrganizerId")
-                        .HasColumnType("int");
-
                     b.HasKey("ActivityId");
-
-                    b.HasIndex("OrganizerId");
 
                     b.ToTable("Activities");
                 });
@@ -75,7 +67,8 @@ namespace ActivitySystem.Migrations
                 {
                     b.Property<int>("ActivityImageId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("ActivityId")
                         .HasColumnType("int");
@@ -87,6 +80,9 @@ namespace ActivitySystem.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("ActivityImageId");
+
+                    b.HasIndex("ActivityId")
+                        .IsUnique();
 
                     b.ToTable("ActivityImages");
                 });
@@ -311,22 +307,11 @@ namespace ActivitySystem.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("ActivitySystem.Models.Activity", b =>
-                {
-                    b.HasOne("ActivitySystem.Models.Organizer", "Organizer")
-                        .WithMany()
-                        .HasForeignKey("OrganizerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Organizer");
-                });
-
             modelBuilder.Entity("ActivitySystem.Models.ActivityImage", b =>
                 {
                     b.HasOne("ActivitySystem.Models.Activity", "Activity")
                         .WithOne("ActivityImage")
-                        .HasForeignKey("ActivitySystem.Models.ActivityImage", "ActivityImageId")
+                        .HasForeignKey("ActivitySystem.Models.ActivityImage", "ActivityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

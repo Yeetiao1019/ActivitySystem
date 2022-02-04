@@ -28,6 +28,10 @@ namespace ActivitySystem.Models
         {
             base.OnModelCreating(builder);
 
+            builder.Entity<Activity>()      // ActivityImage 與 Activity 的一對一關係
+            .HasOne(a => a.ActivityImage)
+            .WithOne(ai => ai.Activity)
+            .HasForeignKey<ActivityImage>(ai => ai.ActivityId);
         }
     }
 }

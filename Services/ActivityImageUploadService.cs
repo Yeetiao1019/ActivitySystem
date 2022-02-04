@@ -13,9 +13,13 @@ namespace ActivitySystem.Services
     {
         public static IFormFile UploadedFile(ActivityFormViewModel model, IWebHostEnvironment webHostEnvironment)
         {
+            string UploadFolder = Path.Combine(webHostEnvironment.WebRootPath, @"images\Upload\Activity");
             if (model.ActivityImage != null)
             {
-                string UploadFolder = Path.Combine(webHostEnvironment.WebRootPath, "images/Upload/Activity");
+                if (!Directory.Exists(UploadFolder))      // 檢查 wwwroot 是否有上傳資料夾
+                {
+                    Directory.CreateDirectory(UploadFolder);
+                }
                 string FileName = Guid.NewGuid().ToString() + "_" + model.ActivityImage.FileName;
                 model.ActivityImageFileName = FileName;
 
