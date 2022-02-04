@@ -99,7 +99,7 @@ namespace ActivitySystem.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(ActivitySystem.Models.Activity activity)
+        public IActionResult Edit(Models.Activity activity)
         {
             if (ModelState.IsValid)
             {
