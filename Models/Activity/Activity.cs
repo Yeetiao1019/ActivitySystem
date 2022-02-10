@@ -43,5 +43,13 @@ namespace ActivitySystem.Models
         public int AlreadyEnrollCount { get; set; }
 
         public ActivityImage ActivityImage { get; set; }
+        [DisplayName("活動建立人")]
+        public string CreateUser { get; set; }
+        [DisplayName("活動建立時間")]
+        [Column(TypeName = "datetime2")]
+        public DateTime CreateTime { get; set; }
+        public string UpdateUser { get; set; }
+        [Column(TypeName = "datetime2")]
+        public DateTime UpdateTime { get; set; }
     }
 }

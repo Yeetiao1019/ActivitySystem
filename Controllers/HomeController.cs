@@ -4,12 +4,14 @@ using ActivitySystem.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace ActivitySystem.Controllers
@@ -19,12 +21,14 @@ namespace ActivitySystem.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly IActivityRepository _activityRepository;
         private readonly IWebHostEnvironment _env;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public HomeController(ILogger<HomeController> logger, IActivityRepository activityRepository, IWebHostEnvironment env)
+        public HomeController(ILogger<HomeController> logger, IActivityRepository activityRepository, IWebHostEnvironment env,UserManager<ApplicationUser> userManager)
         {
             _logger = logger;
             this._activityRepository = activityRepository;
             this._env = env;
+            this._userManager = userManager;
         }
 
         public IActionResult Index()
@@ -51,6 +55,7 @@ namespace ActivitySystem.Controllers
             if (ModelState.IsValid)
             {
                 IFormFile UploadImageFile = ActivityImageUploadService.UploadedFile(model, _env);
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); //取得當前登入的使用者 id
 
                 ActivityModel = new Models.Activity
                 {
@@ -60,7 +65,10 @@ namespace ActivitySystem.Controllers
                     ActivitySignUpStartTime = model.ActivitySignUpStartTime,
                     ActivitySignUpEndTime = model.ActivitySignUpEndTime,
                     ActivityStartTime = model.ActivityStartTime,
-                    ActivityEndTime = model.ActivityEndTime
+                    ActivityEndTime = model.ActivityEndTime,
+                    EnrollCount = model.EnrollCount,
+                    CreateTime = DateTime.Now,
+                    CreateUser = userId
                 };
 
                 ActivityImage ActivityImageModel = new ActivityImage 
@@ -103,6 +111,10 @@ namespace ActivitySystem.Controllers
         {
             if (ModelState.IsValid)
             {
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); //取得當前登入的使用者 id
+                activity.UpdateUser = userId;
+                activity.UpdateTime = DateTime.Now;
+
                 _activityRepository.UpdateActivity(activity);
                 TempData["Message"] = "修改成功！";
             }

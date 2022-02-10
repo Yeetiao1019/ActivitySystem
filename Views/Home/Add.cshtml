@@ -46,6 +46,11 @@
                 <span asp-validation-for="ActivitySignUpEndTime" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="EnrollCount" class="control-label"></label>
+                <input asp-for="EnrollCount" class="form-control" />
+                <span asp-validation-for="EnrollCount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <div class="custom-file">
                     <input type="file" class="custom-file-input" asp-for="ActivityImage">
                     <label class="custom-file-label" for="ActivityImage">選擇圖片</label>

@@ -32,6 +32,8 @@ namespace ActivitySystem.ViewModels
         [Required]
         [DisplayName("報名結束時間")]
         public DateTime ActivitySignUpEndTime { get; set; }
+        [DisplayName("開放報名人數")]
+        public int EnrollCount { get; set; }
         [DisplayName("封面圖片")]
         public IFormFile ActivityImage { get; set; }
         public string ActivityImageFileName { get; set; }

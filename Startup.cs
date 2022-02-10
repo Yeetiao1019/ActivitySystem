@@ -2,6 +2,7 @@ using ActivitySystem.Models;
 using ActivitySystem.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
@@ -30,7 +31,7 @@ namespace ActivitySystem
 
             services.AddDbContext<AppDbContext>(options =>
                   options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
+            
             services.AddScoped<IActivityRepository, ActivityRepository>();
             services.AddScoped<IOrganizerRepository, OrganizerRepository>();
             services.AddScoped<IActivityImageRepository, ActivityImageRepository>();
@@ -47,6 +48,7 @@ namespace ActivitySystem
         .AddDefaultUI()
         .AddDefaultTokenProviders();
 
+            services.AddHttpContextAccessor();
             services.AddControllersWithViews();
             services.AddRazorPages();
         }
