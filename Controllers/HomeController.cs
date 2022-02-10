@@ -1,6 +1,7 @@
 ﻿using ActivitySystem.Models;
 using ActivitySystem.Services;
 using ActivitySystem.ViewModels;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -23,7 +24,7 @@ namespace ActivitySystem.Controllers
         private readonly IWebHostEnvironment _env;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public HomeController(ILogger<HomeController> logger, IActivityRepository activityRepository, IWebHostEnvironment env,UserManager<ApplicationUser> userManager)
+        public HomeController(ILogger<HomeController> logger, IActivityRepository activityRepository, IWebHostEnvironment env, UserManager<ApplicationUser> userManager)
         {
             _logger = logger;
             this._activityRepository = activityRepository;
@@ -51,37 +52,31 @@ namespace ActivitySystem.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Add(ActivityFormViewModel model)
         {
-            Models.Activity ActivityModel = new Models.Activity();
             if (ModelState.IsValid)
             {
                 IFormFile UploadImageFile = ActivityImageUploadService.UploadedFile(model, _env);
                 var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); //取得當前登入的使用者 id
+                var mapperConfig = new MapperConfiguration(cfg =>
+                cfg.CreateMap<ActivityFormViewModel, Models.Activity>()
+                .ForMember(a => a.ActivityImage, opt => opt.Ignore())); //註冊 Model 的對映
 
-                ActivityModel = new Models.Activity
+                var mapper = mapperConfig.CreateMapper();
+                var activity = mapper.Map<Models.Activity>(model);
+                activity.CreateUser = userId;
+
+                ActivityImage ActivityImageModel = new ActivityImage
                 {
-                    ActivityName = model.ActivityName,
-                    Description = model.Description,
-                    Location = model.Location,
-                    ActivitySignUpStartTime = model.ActivitySignUpStartTime,
-                    ActivitySignUpEndTime = model.ActivitySignUpEndTime,
-                    ActivityStartTime = model.ActivityStartTime,
-                    ActivityEndTime = model.ActivityEndTime,
-                    EnrollCount = model.EnrollCount,
-                    CreateTime = DateTime.Now,
-                    CreateUser = userId
-                };
-
-                ActivityImage ActivityImageModel = new ActivityImage 
-                { 
                     ImageFileName = model.ActivityImageFileName,
                     UploadTime = DateTime.Now
                 };
 
-                _activityRepository.AddActivityWithImage(ActivityModel, ActivityImageModel);
+                _activityRepository.AddActivityWithImage(activity, ActivityImageModel);
                 TempData["Message"] = "新增成功！";
+
+                return View("Detail", activity);
             }
 
-            return View("Detail", ActivityModel);
+            return BadRequest();
         }
 
         public IActionResult Detail(int activityId)
@@ -91,7 +86,11 @@ namespace ActivitySystem.Controllers
                 return NotFound();
             }
 
-            return View(_activityRepository.GetActivityById(activityId));
+            var activity = _activityRepository.GetActivityById(activityId);
+            var createUser = _userManager.FindByIdAsync(activity.CreateUser);   //用 userId 取 UserName
+            ViewData["CreateUserName"] = createUser.Result.FullName;
+
+            return View(activity);
         }
 
         [Authorize]
@@ -123,14 +122,14 @@ namespace ActivitySystem.Controllers
         }
 
         [Authorize]
-        public IActionResult Delete (int? activityId)
+        public IActionResult Delete(int? activityId)
         {
-            if(activityId == null)
+            if (activityId == null)
             {
                 return NotFound();
             }
             var activity = _activityRepository.GetActivityById(activityId);
-            
+
             return View(activity);
         }
 
@@ -152,7 +151,7 @@ namespace ActivitySystem.Controllers
 
                     return BadRequest();
                 }
-                
+
             }
 
             return BadRequest();
