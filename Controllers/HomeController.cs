@@ -22,14 +22,18 @@ namespace ActivitySystem.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly IActivityRepository _activityRepository;
         private readonly IWebHostEnvironment _env;
+        private readonly IEnrollRepository _enrollRepository;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public HomeController(ILogger<HomeController> logger, IActivityRepository activityRepository, IWebHostEnvironment env, UserManager<ApplicationUser> userManager)
+        public HomeController(ILogger<HomeController> logger, IActivityRepository activityRepository,
+            IWebHostEnvironment env, UserManager<ApplicationUser> userManager,
+            IEnrollRepository enrollRepository)
         {
             _logger = logger;
             this._activityRepository = activityRepository;
             this._env = env;
             this._userManager = userManager;
+            this._enrollRepository = enrollRepository;
         }
 
         public IActionResult Index()
@@ -152,6 +156,44 @@ namespace ActivitySystem.Controllers
                     return BadRequest();
                 }
 
+            }
+
+            return BadRequest();
+        }
+
+        public IActionResult Enroll()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public IActionResult Enroll(int activityId)
+        {
+            try
+            {
+                var activity = _activityRepository.GetActivityById(activityId);
+                if(activity != null)
+                {
+                    var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); //取得當前登入的使用者 id
+                    Enroll enroll = new Enroll()
+                    {
+                        ActivityId = activityId,
+                        ApplicationUserId = userId
+                    };
+
+                    _enrollRepository.AddEnroll(enroll);
+
+                    TempData["Message"] = "報名成功！";
+
+                    return RedirectToAction("Enroll");
+                }
+            }
+            catch (Exception)
+            {
+
+                return BadRequest();
             }
 
             return BadRequest();

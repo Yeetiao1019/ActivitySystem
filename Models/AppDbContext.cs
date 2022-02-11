@@ -12,6 +12,7 @@ namespace ActivitySystem.Models
         public DbSet<Activity> Activities { get; set; }
         public DbSet<Organizer> Organizers { get; set; }
         public DbSet<ActivityImage> ActivityImages { get; set; }
+        public DbSet<Enroll> Enrolls { get; set; }
         public string DbPath { get; }
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
@@ -32,6 +33,9 @@ namespace ActivitySystem.Models
             .HasOne(a => a.ActivityImage)
             .WithOne(ai => ai.Activity)
             .HasForeignKey<ActivityImage>(ai => ai.ActivityId);
+
+            builder.Entity<Enroll>()        // Activity 與 Enroll, Activity 與 ApplicationUser 的多對多關係
+                .HasKey(e => new { e.ApplicationUserId, e.ActivityId});
         }
     }
 }

@@ -35,6 +35,7 @@ namespace ActivitySystem
             services.AddScoped<IActivityRepository, ActivityRepository>();
             services.AddScoped<IOrganizerRepository, OrganizerRepository>();
             services.AddScoped<IActivityImageRepository, ActivityImageRepository>();
+            services.AddScoped<IEnrollRepository, EnrollRepository>();
             services.AddTransient<IEmailSender, EmailSenderService>(i => new EmailSenderService(
                    Configuration["EmailSenderService:Host"],
                    Configuration.GetValue<int>("EmailSenderService:Port"),

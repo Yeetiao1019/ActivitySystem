@@ -73,7 +73,11 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-activityId="@Model.ActivityId">編輯</a> |
-    <a asp-action="Delete" asp-route-activityId="@Model.ActivityId">刪除</a> |
-    <a asp-action="Index">回首頁</a>
+    <form asp-controller="Home" asp-action="Enroll" method="post" style="display:inline;">
+        <input type="hidden" asp-for="ActivityId" />
+        <input type="submit" value="報名" class="btn btn-primary" />
+    </form>
+    <a class="btn btn-success" asp-action="Edit" asp-route-activityId="@Model.ActivityId">編輯</a>
+    <a class="btn btn-danger" asp-action="Delete" asp-route-activityId="@Model.ActivityId">刪除</a>
+    <a class="btn btn-info" asp-action="Index">回首頁</a>
 </div>

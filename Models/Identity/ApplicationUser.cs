@@ -11,5 +11,6 @@ namespace ActivitySystem.Models
     {
         [Display(Name = "用戶名稱")]
         public string FullName { get; set; }
+        public ICollection<Enroll> Enrolls { get; set; }
     }
 }
