@@ -1,7 +1,7 @@
 ﻿@page
 @model PersonalDataModel
 @{
-    ViewData["Title"] = "Personal Data";
+    ViewData["Title"] = "帳號管理";
     ViewData["ActivePage"] = ManageNavPages.PersonalData;
 }
 
@@ -9,15 +9,15 @@
 
 <div class="row">
     <div class="col-md-6">
-        <p>Your account contains personal data that you have given us. This page allows you to download or delete that data.</p>
+        <p>由於您的帳號包含了相關個人資料，此頁面可提供您下載帳號資料或是刪除帳號。</p>
         <p>
-            <strong>Deleting this data will permanently remove your account, and this cannot be recovered.</strong>
+            <strong>刪除帳號時，將會把您所有帳號的資料全部刪除，並且不可恢復。</strong>
         </p>
         <form id="download-data" asp-page="DownloadPersonalData" method="post" class="form-group">
-            <button class="btn btn-primary" type="submit">Download</button>
+            <button class="btn btn-primary" type="submit">下載帳號資料</button>
         </form>
         <p>
-            <a id="delete" asp-page="DeletePersonalData" class="btn btn-secondary">Delete</a>
+            <a id="delete" asp-page="DeletePersonalData" class="btn btn-danger">刪除帳號</a>
         </p>
     </div>
 </div>
