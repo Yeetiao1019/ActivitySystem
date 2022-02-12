@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ActivitySystem.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20220211073916_AddEnrollModel")]
+    [Migration("20220212054319_AddEnrollModel")]
     partial class AddEnrollModel
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -176,7 +176,9 @@ namespace ActivitySystem.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("EnrollId")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime>("EnrollTime")
                         .HasColumnType("datetime2");

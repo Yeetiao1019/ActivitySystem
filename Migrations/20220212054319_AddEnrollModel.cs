@@ -13,7 +13,8 @@ namespace ActivitySystem.Migrations
                 {
                     ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ActivityId = table.Column<int>(type: "int", nullable: false),
-                    EnrollId = table.Column<int>(type: "int", nullable: false),
+                    EnrollId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     EnrollTime = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>

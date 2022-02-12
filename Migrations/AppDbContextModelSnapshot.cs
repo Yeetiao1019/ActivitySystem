@@ -174,7 +174,9 @@ namespace ActivitySystem.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("EnrollId")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime>("EnrollTime")
                         .HasColumnType("datetime2");
