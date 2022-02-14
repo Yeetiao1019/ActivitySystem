@@ -1,3 +1,4 @@
+using ActivitySystem.Common;
 using ActivitySystem.Models;
 using ActivitySystem.Services;
 using Microsoft.AspNetCore.Builder;
@@ -36,7 +37,7 @@ namespace ActivitySystem
             services.AddScoped<IOrganizerRepository, OrganizerRepository>();
             services.AddScoped<IActivityImageRepository, ActivityImageRepository>();
             services.AddScoped<IEnrollRepository, EnrollRepository>();
-            services.AddTransient<IEmailSender, EmailSenderService>(i => new EmailSenderService(
+            services.AddTransient<IEmailSender, EmailSender>(i => new EmailSender(
                    Configuration["EmailSenderService:Host"],
                    Configuration.GetValue<int>("EmailSenderService:Port"),
                    Configuration.GetValue<bool>("EmailSenderService:IsEnableSSL"),

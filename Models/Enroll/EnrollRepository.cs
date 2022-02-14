@@ -14,10 +14,33 @@ namespace ActivitySystem.Models
         }
         public bool AddEnroll(Enroll enroll)
         {
-            _appDbContext.Enrolls.Add(enroll);
-            var count = _appDbContext.SaveChanges();
+            var activity = _appDbContext.Activities.FirstOrDefault(a => a.ActivityId == enroll.ActivityId);
+            var userAlreadyEnrollInActivity = GetEnrollByActivityIdAndUserId(enroll.ActivityId, enroll.ApplicationUserId);
+            var alreadyEnrollQty = GetEnrollQtyByActivityId(enroll.ActivityId);
 
-            return count > 0;
+            try
+            {
+                if(alreadyEnrollQty >= activity.EnrollCount)     // 已報名人數小於報名人數才可執行
+                {
+                    throw new Exception("此活動報名人數已滿");
+                }
+                else if(userAlreadyEnrollInActivity != null)
+                {
+                    throw new Exception("您已報名此活動");
+                }
+                else
+                {
+                    _appDbContext.Enrolls.Add(enroll);
+                    var count = _appDbContext.SaveChanges();
+
+                    return count > 0;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception(ex.Message);
+            }
         }
 
         public bool DeleteEnrollByActivityIdAndUserId(int activityId, string userId)
@@ -34,6 +57,11 @@ namespace ActivitySystem.Models
             }
 
             return false;
+        }
+
+        public int GetEnrollQtyByActivityId(int activityId)
+        {
+            return _appDbContext.Enrolls.Where(e => e.ActivityId == activityId).Count();
         }
 
         public Enroll GetEnrollByActivityIdAndUserId(int activityId, string userId)

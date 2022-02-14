@@ -9,6 +9,7 @@ namespace ActivitySystem.Models
     {
         Enroll GetEnrollByActivityIdAndUserId(int activityId, string userId);
         IEnumerable<Enroll> GetEnrollsByUserId(string userId);
+        int GetEnrollQtyByActivityId(int activityId);
         bool AddEnroll(Enroll enroll);
         bool DeleteEnrollByActivityIdAndUserId(int activityId, string userId);        
     }

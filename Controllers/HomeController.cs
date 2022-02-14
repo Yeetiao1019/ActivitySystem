@@ -1,4 +1,5 @@
-﻿using ActivitySystem.Models;
+﻿using ActivitySystem.Filters;
+using ActivitySystem.Models;
 using ActivitySystem.Services;
 using ActivitySystem.ViewModels;
 using AutoMapper;
@@ -91,13 +92,36 @@ namespace ActivitySystem.Controllers
             }
 
             var activity = _activityRepository.GetActivityById(activityId);
+            activity.AlreadyEnrollCount = _enrollRepository.GetEnrollQtyByActivityId(activityId);
+
             var createUser = _userManager.FindByIdAsync(activity.CreateUser);   //用 userId 取 UserName
             ViewData["CreateUserName"] = createUser.Result.FullName;
+
+            var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userAlreadyEnrollInActivity = _enrollRepository.GetEnrollByActivityIdAndUserId(activityId, currentUserId);
+            if(userAlreadyEnrollInActivity != null)     // 若該活動的報名資料有當前登入使用者，則不顯示報名按鈕
+            {
+                ViewData["EnrollBtn"] = false;
+            }
+            else
+            {
+                ViewData["EnrollBtn"] = true;
+            }
+
+            if (activity.CreateUser != currentUserId)   // 若當前登入使用者非活動建立者，則不顯示編輯按鈕
+            {
+                ViewData["EditDelBtn"] = false;
+            }
+            else
+            {
+                ViewData["EditDelBtn"] = true;
+            }
 
             return View(activity);
         }
 
         [Authorize]
+        [TypeFilter(typeof(ActivityCreateUserAuthAttribute))]
         public IActionResult Edit(int activityId)
         {
             if (activityId <= 0)
@@ -109,6 +133,7 @@ namespace ActivitySystem.Controllers
         }
 
         [HttpPost]
+        [TypeFilter(typeof(ActivityCreateUserAuthAttribute))]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(Models.Activity activity)
         {
@@ -190,10 +215,10 @@ namespace ActivitySystem.Controllers
                     return RedirectToAction("Enroll");
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
 
             return BadRequest();
