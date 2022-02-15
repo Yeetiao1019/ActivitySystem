@@ -121,7 +121,7 @@ namespace ActivitySystem.Controllers
         }
 
         [Authorize]
-        [TypeFilter(typeof(ActivityCreateUserAuthAttribute))]
+        [TypeFilter(typeof(ActivityCreateUserAuthAttribute))]       // 使用 TypeFilter，讓 Filter 可以吃到 DI 的 service
         public IActionResult Edit(int activityId)
         {
             if (activityId <= 0)
@@ -151,6 +151,7 @@ namespace ActivitySystem.Controllers
         }
 
         [Authorize]
+        [TypeFilter(typeof(ActivityCreateUserAuthAttribute))]       // 使用 TypeFilter，讓 Filter 可以吃到 DI 的 service
         public IActionResult Delete(int? activityId)
         {
             if (activityId == null)
@@ -164,6 +165,7 @@ namespace ActivitySystem.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [TypeFilter(typeof(ActivityCreateUserAuthAttribute))]       // 使用 TypeFilter，讓 Filter 可以吃到 DI 的 service
         public IActionResult DeleteConfirm(int activityId)
         {
             if (ModelState.IsValid)
