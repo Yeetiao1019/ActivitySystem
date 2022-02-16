@@ -72,7 +72,24 @@ namespace ActivitySystem.Models
 
         public IEnumerable<Enroll> GetEnrollsByUserId(string userId)
         {
-            return _appDbContext.Enrolls.Where(e => e.ApplicationUserId == userId);
+            try
+            {
+                var enrolls = _appDbContext.Enrolls.Where(e => e.ApplicationUserId == userId).ToList();
+                if (enrolls != null)
+                {
+                    foreach (var enroll in enrolls)
+                    {
+                        var activity = _appDbContext.Activities.FirstOrDefault(a => a.ActivityId == enroll.ActivityId);
+                        enroll.Activity = activity;
+                    }
+                }
+
+                return enrolls;
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentNullException("報名資料搜尋失敗");
+            }
         }
     }
 }

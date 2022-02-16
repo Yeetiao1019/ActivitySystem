@@ -1,0 +1,31 @@
+﻿@page
+@model EnrollModel
+@{
+    ViewData["Title"] = "已報名活動";
+    ViewData["ActivePage"] = ManageNavPages.Enroll;
+}
+
+<h4>@ViewData["Title"]</h4>
+@await Html.PartialAsync("_MessageNotification", TempData["Message"])
+
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+@for (int i = 0; i < Model.Enrolls.Count(); i++)
+{
+    <form method="post">
+        <div class="form-group">
+            <div class="row">
+                <input id="ActivityId" name="ActivityId" type="hidden" value="@Model.Enrolls.ToList()[i].Activity.ActivityId" />
+                <div class="col-md-2"><span>@(i+1)</span></div>
+                <div class="col-md-8"><span>@Model.Enrolls.ToList()[i].Activity.ActivityName</span></div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-danger">刪除</button>
+                </div>
+            </div>
+        </div>
+    </form>
+}
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

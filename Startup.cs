@@ -51,6 +51,7 @@ namespace ActivitySystem
         .AddDefaultTokenProviders();
 
             services.AddHttpContextAccessor();
+            services.AddRouting();
             services.AddControllersWithViews();
             services.AddRazorPages();
         }
@@ -77,7 +78,7 @@ namespace ActivitySystem
             {
                 endpoints.MapControllerRoute(       //讓 asp-area 可以變成 URI 而非參數
                     name: "mvcAreaRoute",
-                    pattern: "{area:exists}/{controller=Home}/{action=Index}");
+                    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
                 endpoints.MapControllerRoute(
                     name: "default",

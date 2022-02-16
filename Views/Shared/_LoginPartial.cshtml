@@ -14,7 +14,7 @@
     <form asp-area="Identity" asp-controller="Account" asp-action="Logout" asp-route-returnUrl="/" method="post" id="logoutForm" class="navbar-right">
         <ul class="nav navbar-nav navbar-right">
             <li>
-                <a class="btn btn-link" asp-area="Identity" asp-controller="Account" asp-action="Manage" title="Manage">@ViewData["FullName"]</a>
+                <a class="btn btn-link" asp-area="Identity" asp-page="/Account/Manage/Enroll" title="Enroll">@ViewData["FullName"]</a>
             </li>
             <li>
                 <button type="submit" class="btn btn-link navbar-btn navbar-link">登出</button>

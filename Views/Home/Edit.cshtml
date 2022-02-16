@@ -11,6 +11,8 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="ActivityId" />
+            <input type="hidden" asp-for="CreateUser" />
+            <input type="hidden" asp-for="CreateTime" />
             <div class="form-group">
                 <label asp-for="ActivityName" class="control-label"></label>
                 <input asp-for="ActivityName" class="form-control" />

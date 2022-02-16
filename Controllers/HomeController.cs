@@ -147,6 +147,26 @@ namespace ActivitySystem.Controllers
                 TempData["Message"] = "修改成功！";
             }
 
+            var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userAlreadyEnrollInActivity = _enrollRepository.GetEnrollByActivityIdAndUserId(activity.ActivityId, currentUserId);
+            if (userAlreadyEnrollInActivity != null)     // 若該活動的報名資料有當前登入使用者，則不顯示報名按鈕
+            {
+                ViewData["EnrollBtn"] = false;
+            }
+            else
+            {
+                ViewData["EnrollBtn"] = true;
+            }
+
+            if (activity.CreateUser != currentUserId)   // 若當前登入使用者非活動建立者，則不顯示編輯按鈕
+            {
+                ViewData["EditDelBtn"] = false;
+            }
+            else
+            {
+                ViewData["EditDelBtn"] = true;
+            }
+
             return View("Detail", _activityRepository.GetActivityById(activity.ActivityId));
         }
 
