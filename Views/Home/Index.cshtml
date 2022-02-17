@@ -1,52 +1,66 @@
 ﻿@model ActivitySystem.ViewModels.ActivityListViewModel
 
 @await Html.PartialAsync("_MessageNotification", TempData["Message"])
+<link rel="stylesheet" href="~/css/Home/Index.css">
 
+@await Component.InvokeAsync(nameof(ShowActivityCarousel))
+@* 熱門推薦 *@
 <div class="row">
     <div class="col-lg-12">
-        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-            <ol class="carousel-indicators">
-                @for (int i = 0; i < Model.Activities.ToList().Count; i++)
-                {
-                    if (i == 0)
-                    {
-                        <li data-target="#carouselExampleIndicators" data-slide-to="@i" class="active"></li>
-                    }
-                    else
-                    {
-                        <li data-target="#carouselExampleIndicators" data-slide-to="@i"></li>
-                    }
-                }
-            </ol>
-            <div class="carousel-inner">
-                @for (int i = 0; i < Model.Activities.ToList().Count; i++)
-                {
-                    if (i == 0)
-                    {
-                        <div class="carousel-item active">
-                            <a asp-controller="Home" asp-action="Detail" asp-route-activityId="@Model.Activities.ToList()[i].ActivityId">
-                                <img class="d-block w-100" src="~/images/Upload/Activity/@Model.Activities.ToList()[i].ActivityImage.ImageFileName" alt="@Model.Activities.ToList()[i].ActivityName" href="@Url.Action("Detail", "Home", new { activityId = Model.Activities.ToList()[i].ActivityId})">
-                            </a>
+        <h4>熱門推薦</h4>
+        <hr />
+        <div class="row">
+            @foreach (var activity in Model.Activities)
+            {
+                <div class="col-lg-4">
+                    <div class="card" style="width: 18rem;">
+                        @if (!string.IsNullOrEmpty(activity.ActivityImage.ImageFileName))
+                        {
+                            <img src="~/images/Upload/Activity/@activity.ActivityImage.ImageFileName" class="card-img-top" asp-append-version="true" />
+                        }
+                        else
+                        {
+                            <img src="~/images/logo.png" class="card-img-top" alt="...">
+                        }
+                        <div class="card-body">
+                            <h5 class="card-title">@activity.ActivityName</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">@activity.ActivityStartTime.ToString("yyyy-MM-dd(dddd)") ~ <br>@activity.ActivityEndTime.ToString("yyyy-MM-dd(dddd)")</h6>
+                            <p class="card-text">@activity.Description</p>
+                            <a asp-controller="Home" asp-action="Detail" asp-route-activityId="@activity.ActivityId" class="btn btn-primary">查看更多</a>
                         </div>
-                    }
-                    else
-                    {
-                        <div class="carousel-item">
-                            <a asp-controller="Home" asp-action="Detail" asp-route-activityId="@Model.Activities.ToList()[i].ActivityId">
-                                <img class="d-block w-100" src="~/images/Upload/Activity/@Model.Activities.ToList()[i].ActivityImage.ImageFileName" alt="@Model.Activities.ToList()[i].ActivityName" asp-controller="Home" asp-action="Detail" asp-route-activityId="@Model.Activities.ToList()[i].ActivityId">
-                            </a>
-                        </div>
-                    }
-                }
-            </div>
+                    </div>
+                </div>
+            }
         </div>
-        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-        </a>
+    </div>
+</div>
+@* 精選活動 *@
+<div class="row">
+    <div class="col-lg-12">
+        <h4>精選活動</h4>
+        <hr />
+        <div class="row">
+            @foreach (var activity in Model.Activities)
+            {
+                <div class="col-lg-4">
+                    <div class="card" style="width: 18rem;">
+                        @if (!string.IsNullOrEmpty(activity.ActivityImage.ImageFileName))
+                        {
+                            <img src="~/images/Upload/Activity/@activity.ActivityImage.ImageFileName" class="card-img-top" asp-append-version="true" />
+                        }
+                        else
+                        {
+                            <img src="~/images/logo.png" class="card-img-top" alt="...">
+                        }
+                        <div class="card-body">
+                            <h5 class="card-title">@activity.ActivityName</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">@activity.ActivityStartTime.ToString("yyyy-MM-dd(dddd)") ~ <br>@activity.ActivityEndTime.ToString("yyyy-MM-dd(dddd)")</h6>
+                            <p class="card-text">@activity.Description</p>
+                            <a asp-controller="Home" asp-action="Detail" asp-route-activityId="@activity.ActivityId" class="btn btn-primary">查看更多</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
     </div>
 </div>

@@ -1,0 +1,19 @@
+﻿/* Bootstrap Carousel 輪播元件的長寬*/
+.carousel .carousel-item {
+    height: 600px;
+}
+
+    .carousel .carousel-item img {
+        min-height: 500px;
+        max-height: 600px;
+        object-fit: cover;
+    }
+
+
+.row {
+    margin-bottom: 25px;
+}
+
+h4{
+    font-weight: bold;
+}
