@@ -9,14 +9,12 @@ using System.Threading.Tasks;
 
 namespace ActivitySystem.ViewComponents
 {
-    public class ShowActivityCarousel : ViewComponent
+    public class ShowActivitiesCarousel : ViewComponent
     {
-        private readonly IActivityRepository _activityRepository;
         private readonly AppDbContext _appDbContext;
 
-        public ShowActivityCarousel(IActivityRepository activityRepository, AppDbContext appDbContext)
+        public ShowActivitiesCarousel(AppDbContext appDbContext)
         {
-            _activityRepository = activityRepository;
             _appDbContext = appDbContext;
         }
         public async Task<IViewComponentResult> InvokeAsync()

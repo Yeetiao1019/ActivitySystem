@@ -3,35 +3,13 @@
 @await Html.PartialAsync("_MessageNotification", TempData["Message"])
 <link rel="stylesheet" href="~/css/Home/Index.css">
 
-@await Component.InvokeAsync(nameof(ShowActivityCarousel))
+@await Component.InvokeAsync(nameof(ShowActivitiesCarousel))
 @* 熱門推薦 *@
 <div class="row">
     <div class="col-lg-12">
         <h4>熱門推薦</h4>
         <hr />
-        <div class="row">
-            @foreach (var activity in Model.Activities)
-            {
-                <div class="col-lg-4">
-                    <div class="card" style="width: 18rem;">
-                        @if (!string.IsNullOrEmpty(activity.ActivityImage.ImageFileName))
-                        {
-                            <img src="~/images/Upload/Activity/@activity.ActivityImage.ImageFileName" class="card-img-top" asp-append-version="true" />
-                        }
-                        else
-                        {
-                            <img src="~/images/logo.png" class="card-img-top" alt="...">
-                        }
-                        <div class="card-body">
-                            <h5 class="card-title">@activity.ActivityName</h5>
-                            <h6 class="card-subtitle mb-2 text-muted">@activity.ActivityStartTime.ToString("yyyy-MM-dd(dddd)") ~ <br>@activity.ActivityEndTime.ToString("yyyy-MM-dd(dddd)")</h6>
-                            <p class="card-text">@activity.Description</p>
-                            <a asp-controller="Home" asp-action="Detail" asp-route-activityId="@activity.ActivityId" class="btn btn-primary">查看更多</a>
-                        </div>
-                    </div>
-                </div>
-            }
-        </div>
+        @await Component.InvokeAsync(nameof(ShowPopularActivities))
     </div>
 </div>
 @* 精選活動 *@
