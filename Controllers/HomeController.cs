@@ -78,7 +78,7 @@ namespace ActivitySystem.Controllers
                 _activityRepository.AddActivityWithImage(activity, ActivityImageModel);
                 TempData["Message"] = "新增成功！";
 
-                return View("Detail", activity);
+                return RedirectToAction("Detail", activity);
             }
 
             return BadRequest();
@@ -99,7 +99,7 @@ namespace ActivitySystem.Controllers
 
             var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var userAlreadyEnrollInActivity = _enrollRepository.GetEnrollByActivityIdAndUserId(activityId, currentUserId);
-            if(userAlreadyEnrollInActivity != null)     // 若該活動的報名資料有當前登入使用者，則不顯示報名按鈕
+            if (userAlreadyEnrollInActivity != null)     // 若該活動的報名資料有當前登入使用者，則不顯示報名按鈕
             {
                 ViewData["EnrollBtn"] = false;
             }
@@ -129,45 +129,78 @@ namespace ActivitySystem.Controllers
                 return NotFound();
             }
 
-            return View(_activityRepository.GetActivityById(activityId));
+            var activity = _activityRepository.GetActivityById(activityId);
+            var mapperConfig = new MapperConfiguration(cfg =>       //註冊 Model 的對映
+                cfg.CreateMap<Models.Activity, ActivityFormViewModel>()
+                .ForMember(af => af.ActivityImage, opt => opt.Ignore())     // 忽略 AcvitityImage 的 Mapping 因為型別不同
+                .ForMember(af => af.ActivityImageId, opt => opt.MapFrom(a => a.ActivityImage.ActivityImageId)));    // 手動 Mapping ActivityImageId
+            var mapper = mapperConfig.CreateMapper();
+            var activityFormViewModel = mapper.Map<ActivityFormViewModel>(activity);
+
+            ViewData["ActivityImageFileName"] = activity.ActivityImage.ImageFileName;
+
+            return View(activityFormViewModel);
         }
 
         [HttpPost]
         [TypeFilter(typeof(ActivityCreateUserAuthAttribute))]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(Models.Activity activity)
+        public IActionResult Edit(ActivityFormViewModel model)
         {
             if (ModelState.IsValid)
             {
+                IFormFile UploadImageFile = ActivityImageUploadService.UploadedFile(model, _env);
+                ActivityImage ActivityImageModel = new ActivityImage
+                {
+                    ActivityId = model.ActivityId,
+                    ActivityImageId = model.ActivityImageId,
+                    ImageFileName = model.ActivityImageFileName,
+                    UploadTime = DateTime.Now
+                };
                 var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); //取得當前登入的使用者 id
+                var mapperConfig = new MapperConfiguration(cfg =>
+                cfg.CreateMap<ActivityFormViewModel, Models.Activity>()
+                .ForMember(a => a.ActivityImage, opt => opt.Ignore())); //註冊 Model 的對映
+
+                var mapper = mapperConfig.CreateMapper();
+                var activity = mapper.Map<Models.Activity>(model);
                 activity.UpdateUser = userId;
                 activity.UpdateTime = DateTime.Now;
+                activity.ActivityImage = ActivityImageModel;
 
-                _activityRepository.UpdateActivity(activity);
-                TempData["Message"] = "修改成功！";
+                if (_activityRepository.UpdateActivity(activity))
+                {
+                    TempData["Message"] = "修改成功！";
+                }
+                else
+                {
+                    TempData["Message"] = "修改失敗！";
+                }
+
+                var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var userAlreadyEnrollInActivity = _enrollRepository.GetEnrollByActivityIdAndUserId(model.ActivityId, currentUserId);
+                if (userAlreadyEnrollInActivity != null)     // 若該活動的報名資料有當前登入使用者，則不顯示報名按鈕
+                {
+                    ViewData["EnrollBtn"] = false;
+                }
+                else
+                {
+                    ViewData["EnrollBtn"] = true;
+                }
+
+                if (model.CreateUser != currentUserId)   // 若當前登入使用者非活動建立者，則不顯示編輯按鈕
+                {
+                    ViewData["EditDelBtn"] = false;
+                }
+                else
+                {
+                    ViewData["EditDelBtn"] = true;
+                }
+
+                return RedirectToAction("Detail", _activityRepository.GetActivityById(model.ActivityId));
             }
 
-            var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var userAlreadyEnrollInActivity = _enrollRepository.GetEnrollByActivityIdAndUserId(activity.ActivityId, currentUserId);
-            if (userAlreadyEnrollInActivity != null)     // 若該活動的報名資料有當前登入使用者，則不顯示報名按鈕
-            {
-                ViewData["EnrollBtn"] = false;
-            }
-            else
-            {
-                ViewData["EnrollBtn"] = true;
-            }
-
-            if (activity.CreateUser != currentUserId)   // 若當前登入使用者非活動建立者，則不顯示編輯按鈕
-            {
-                ViewData["EditDelBtn"] = false;
-            }
-            else
-            {
-                ViewData["EditDelBtn"] = true;
-            }
-
-            return View("Detail", _activityRepository.GetActivityById(activity.ActivityId));
+            return BadRequest();
         }
 
         [Authorize]
@@ -221,7 +254,7 @@ namespace ActivitySystem.Controllers
             try
             {
                 var activity = _activityRepository.GetActivityById(activityId);
-                if(activity != null)
+                if (activity != null)
                 {
                     var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); //取得當前登入的使用者 id
                     Enroll enroll = new Enroll()

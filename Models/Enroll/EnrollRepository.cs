@@ -86,7 +86,7 @@ namespace ActivitySystem.Models
 
                 return enrolls;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw new ArgumentNullException("報名資料搜尋失敗");
             }

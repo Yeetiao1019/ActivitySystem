@@ -76,13 +76,13 @@ namespace ActivitySystem
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute(       //琵 asp-area 跑Θ URI τ獶把计
-                    name: "mvcAreaRoute",
-                    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
-
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{activityId?}");
+
+                endpoints.MapControllerRoute(       //琵 asp-area 跑Θ URI τ獶把计
+                    name: "mvcAreaRoute",
+                    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
                 endpoints.MapRazorPages();
             });

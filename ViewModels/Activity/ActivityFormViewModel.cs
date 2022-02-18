@@ -11,6 +11,7 @@ namespace ActivitySystem.ViewModels
 {
     public class ActivityFormViewModel
     {
+        public int ActivityId { get; set; }
         [Required]
         [DisplayName("活動名稱")]
         public string ActivityName { get; set; }
@@ -36,7 +37,9 @@ namespace ActivitySystem.ViewModels
         public int EnrollCount { get; set; }
         [DisplayName("封面圖片")]
         public IFormFile ActivityImage { get; set; }
+        public int ActivityImageId { get; set; }
         public string ActivityImageFileName { get; set; }
         public DateTime CreateTime { get; set; } = DateTime.Now;
+        public string CreateUser { get; set; }
     }
 }
