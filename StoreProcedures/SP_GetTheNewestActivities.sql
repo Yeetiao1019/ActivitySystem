@@ -16,7 +16,7 @@ BEGIN
 	DECLARE @SQLScript NVARCHAR(500)
 	SET @SQLScript = 
 	'
-		SELECT TOP ' + @Count + '[ActivityId]
+		SELECT TOP ' + CAST(@Count AS VARCHAR(5)) + '[ActivityId]
 		  ,[ActivityName]
 		  ,[Location]
 		  ,[Description]
