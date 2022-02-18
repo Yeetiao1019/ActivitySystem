@@ -11,19 +11,17 @@ namespace ActivitySystem.ViewComponents
 {
     public class ShowPopularActivities : ViewComponent
     {
-        private readonly AppDbContext _appDbContext;
+        private readonly IActivityRepository _activityRepository;
 
-        public ShowPopularActivities(AppDbContext appDbContext)
+        public ShowPopularActivities(IActivityRepository activityRepository)
         {
-            _appDbContext = appDbContext;
+            this._activityRepository = activityRepository;
         }
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var activities = await _appDbContext.Activities.FromSqlRaw("EXECUTE dbo.GetPopularActivities").ToListAsync();
-
             return View(new ActivityListViewModel
             {
-                Activities = activities
+                Activities = await _activityRepository.GetPopularActivitiesAsync(5)
             });
         }
     }

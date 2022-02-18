@@ -11,19 +11,17 @@ namespace ActivitySystem.ViewComponents
 {
     public class ShowActivitiesCarousel : ViewComponent
     {
-        private readonly AppDbContext _appDbContext;
+        private readonly IActivityRepository _activityRepository;
 
-        public ShowActivitiesCarousel(AppDbContext appDbContext)
+        public ShowActivitiesCarousel(IActivityRepository activityRepository)
         {
-            _appDbContext = appDbContext;
+            this._activityRepository = activityRepository;
         }
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var activities = await _appDbContext.Activities.FromSqlRaw("EXECUTE dbo.GetTheNewestActivities").ToListAsync();
-
             return View(new ActivityListViewModel
             {
-                Activities = activities
+                Activities = await _activityRepository.GetTheNewestActivitiesAsync(5)
             });
         }
     }

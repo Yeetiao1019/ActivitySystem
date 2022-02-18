@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -91,10 +92,25 @@ namespace ActivitySystem.Models
 
             return activities;
         }
+        public async Task<IEnumerable<Activity>> GetPopularActivitiesAsync(int count)
+        {
+            var SqlScript = $"EXECUTE dbo.GetTheNewestActivities @Count = {count}";
+            var activities = await _appDbContext.Activities.FromSqlRaw(SqlScript).ToListAsync();
+
+            return activities;
+        }
+
+        public async Task<IEnumerable<Activity>> GetTheNewestActivitiesAsync(int count)
+        {
+            string SqlScript = $"EXECUTE dbo.GetTheNewestActivities @Count = {count}";
+            var activities = await _appDbContext.Activities.FromSqlRaw(SqlScript).ToListAsync();
+
+            return activities;
+        }
 
         public Activity GetActivityById(int? activityId)
         {
-            if(activityId == null)
+            if (activityId == null)
             {
                 throw new ArgumentNullException();
             }
