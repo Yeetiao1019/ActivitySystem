@@ -23,7 +23,7 @@
                     <form class="form-inline" asp-controller="Home" asp-action="Search" method="get">
                         <input class="form-control mr-sm-2" name="activityName" placeholder="找活動..." value="@ViewData["activityName"]" />
                     </form>
-                    <partial name="_LoginPartial" />
+                    @await Html.PartialAsync("_LoginPartial")
                     <a class="btn btn-info my-2 my-sm-0" asp-controller="Home" asp-action="Add">辦活動</a>
                 </div>
             </div>
@@ -37,7 +37,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2022 - 活動報名系統
+            &copy; 2022 - 活動通
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

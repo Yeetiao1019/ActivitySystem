@@ -32,7 +32,7 @@ namespace ActivitySystem
 
             services.AddDbContext<AppDbContext>(options =>
                   options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            
+
             services.AddScoped<IActivityRepository, ActivityRepository>();
             services.AddScoped<IOrganizerRepository, OrganizerRepository>();
             services.AddScoped<IActivityImageRepository, ActivityImageRepository>();
