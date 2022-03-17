@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ActivitySystem", "ActivitySystem.csproj", "{555F6DEF-1D35-410C-828F-101C1BBF55CE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActivitySystem.Test", "..\ActivitySystem.Test\ActivitySystem.Test\ActivitySystem.Test.csproj", "{7747C893-A484-4AFF-B6CE-F216667558FA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ActivitySystem.Test", "..\ActivitySystem.Test\ActivitySystem.Test\ActivitySystem.Test.csproj", "{7747C893-A484-4AFF-B6CE-F216667558FA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
