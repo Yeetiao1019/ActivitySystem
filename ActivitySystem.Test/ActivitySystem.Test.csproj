@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\ActivitySystem\ActivitySystem.csproj" />
+    <ProjectReference Include="..\ActivitySystem\ActivitySystem.csproj" />
   </ItemGroup>
 
 </Project>
