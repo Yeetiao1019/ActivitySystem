@@ -9,8 +9,7 @@
 *.user
 *.userosscache
 *.sln.docstates
-appsettings.Development.json
-appsettings.Production.json
+appsettings.*.json
 wwwroot/images/[Uu]pload/
 
 # User-specific files (MonoDevelop/Xamarin Studio)
@@ -29,7 +28,6 @@ bld/
 [Bb]in/
 [Oo]bj/
 [Ll]og/
-ActivitySystem.Test/[Oo]bj/
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/
